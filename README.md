@@ -5,7 +5,7 @@
 
 ## Overview
 
-`semantic-release-kaniko` is a powerful and efficient plugin for `semantic-release` that facilitates the building and deployment of Docker images in a daemonless environment using Kaniko. This plugin is designed to streamline your CI/CD pipeline by leveraging Kaniko's advanced container management capabilities.
+`semantic-release-kaniko` is a powerful and efficient plugin for `semantic-release` that facilitates the building and deployment of Docker images in a daemonless environment using [Kaniko](https://github.com/GoogleContainerTools/kaniko/). This plugin is designed to streamline your CI/CD pipeline by leveraging Kaniko's advanced container management capabilities.
 
 ## Features
 
@@ -51,6 +51,7 @@ module.exports = {
                 tags: ['${version}', 'latest'],
                 username: process.env.DOCKER_USERNAME,
                 password: process.env.DOCKER_PASSWORD,
+                insecure: false,
             },
         ],
     ],
