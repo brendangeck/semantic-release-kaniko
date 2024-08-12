@@ -25,4 +25,3 @@ inputs:
 runs:
     using: 'docker'
     image: 'Dockerfile'
-    entrypoint: 'npx mocha app/tst/integ/**/*.test.js'
