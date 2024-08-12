@@ -43,10 +43,7 @@ jobs:
             - name: Install dependencies
               run: npm install
 
-            - name: Print directory structure
-              run: tree -a -I .git
-
-            # The docker build action sets the build contex to be within the action directory, so our source files must be there
+            # The docker build action sets the build context to be within the action directory, so our source files must be there
             - name: Prepare build context for testing
               run: |
                   cp -r ./lib ./.github/actions/integ-tests/lib
