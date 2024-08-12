@@ -1,15 +1,53 @@
 {
-  "name": "@bpgeck/semantic-release-kaniko",
-  "version": "0.1.0",
-  "description": "A semantic-release plugin for building and deploying Docker images in a daemonless environment using Kaniko",
-  "type": "module",
-  "author": "Brendan Geck <bpgeck@gmail.com>",
-  "license": "MIT",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/brendangeck/semantic-release-kaniko.git"
-  },
-  "publishConfig": {
-    "access": "public"
-  }
+    "name": "@bpgeck/semantic-release-kaniko",
+    "version": "1.0.0",
+    "description": "A semantic-release plugin for building and deploying Docker images in a daemonless environment using Kaniko",
+    "main": "index.js",
+    "type": "module",
+    "engines": {
+        "node": ">=20.8.1"
+    },
+    "scripts": {
+        "test": "docker compose up --attach test-runner --abort-on-container-exit",
+        "lint": "eslint ."
+    },
+    "keywords": [
+        "semantic-release",
+        "kaniko",
+        "dockerless",
+        "daemonless",
+        "docker",
+        "docker-in-docker",
+        "dind",
+        "container",
+        "ci",
+        "cd"
+    ],
+    "author": "Brendan Geck <bpgeck@gmail.com>",
+    "license": "MIT",
+    "dependencies": {
+        "@semantic-release/error": "^4.0.0",
+        "execa": "^9.3.0"
+    },
+    "devDependencies": {
+        "@eslint/js": "^9.8.0",
+        "@semantic-release/git": "^10.0.1",
+        "chai": "^5.1.1",
+        "eslint": "^9.8.0",
+        "eslint-config-prettier": "^9.1.0",
+        "eslint-plugin-prettier": "^5.2.1",
+        "globals": "^15.9.0",
+        "mocha": "^10.7.0",
+        "semantic-release": "^19.0.3"
+    },
+    "peerDependencies": {
+        "semantic-release": ">=18.0.0"
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/brendangeck/semantic-release-kaniko.git"
+    },
+    "publishConfig": {
+        "access": "public"
+    }
 }
