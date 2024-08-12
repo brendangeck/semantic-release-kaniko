@@ -11,5 +11,7 @@ COPY --from=kaniko /kaniko/executor /kaniko/executor
 # files with the contents of ${GITHUB_WORKSPACE}
 # Learn about more Github Action behavior here: https://docs.github.com/en/actions/sharing-automations/creating-actions/creating-a-docker-container-action
 
+COPY . ./app
+
 # Confirm file contents
-RUN ls -la
+RUN ls -la ./app
