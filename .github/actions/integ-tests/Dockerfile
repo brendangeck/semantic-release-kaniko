@@ -7,7 +7,8 @@ FROM node:20.16.0-alpine
 # Copy Kaniko executor from the Kaniko image
 COPY --from=kaniko /kaniko/executor /kaniko/executor
 
-COPY . ./app
+# Github Actions mounts over the working directory, so we don't set WORDIR or COPY and files
+# Learn about more Github Action behavior here: https://docs.github.com/en/actions/sharing-automations/creating-actions/creating-a-docker-container-action
 
-# Confirm file contents
-RUN ls -la ./app
+# Rely on entrypoint to do the install and run tests
+ENTRYPOINT ["entrypoint.sh"]
