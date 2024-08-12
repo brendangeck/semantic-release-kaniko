@@ -1,0 +1,15 @@
+{
+  "name": "@bpgeck/semantic-release-kaniko",
+  "version": "0.1.0",
+  "description": "A semantic-release plugin for building and deploying Docker images in a daemonless environment using Kaniko",
+  "type": "module",
+  "author": "Brendan Geck <bpgeck@gmail.com>",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/brendangeck/semantic-release-kaniko.git"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}
