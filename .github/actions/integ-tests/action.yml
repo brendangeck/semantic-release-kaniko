@@ -1,0 +1,27 @@
+name: 'semantic-release-kaniko containerized integration tests'
+description: 'Intended for internal use only. Runs the integration tests in a containerized environment.'
+inputs:
+    registry:
+        description: 'The Docker registry to push images to'
+        required: true
+    project:
+        description: 'The project name in the Docker registry'
+        required: true
+    image:
+        description: 'The Docker image name'
+        required: true
+    tags:
+        description: 'An array of tags to apply to the Docker image'
+        required: true
+    username:
+        description: 'The username for Docker registry authentication'
+        required: false
+    password:
+        description: 'The password for Docker registry authentication'
+        required: false
+    insecure:
+        description: 'Use insecure connection in integ tests'
+        required: true
+runs:
+    using: 'docker'
+    image: 'Dockerfile'

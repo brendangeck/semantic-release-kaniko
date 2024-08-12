@@ -51,13 +51,13 @@ jobs:
                   cp ./package-lock.json ./.github/actions/integ-tests/package-lock.json
                   cp -r ./tst/ ./.github/actions/integ-tests/tst/
 
-            # - name: Run tests
-            #   uses: ./.github/actions/integ-tests
-            #   with:
-            #       registry: 'your-registry.example.com'
-            #       project: 'your-project'
-            #       image: 'your-image'
-            #       tags: '["latest", "v1"]'
-            #       username: ${{ secrets.DOCKER_USERNAME }}
-            #       password: ${{ secrets.DOCKER_PASSWORD }}
-            #       insecure: true
+            - name: Run tests
+              uses: ./.github/actions/integ-tests
+              with:
+                  registry: 'your-registry.example.com'
+                  project: 'your-project'
+                  image: 'your-image'
+                  tags: '["latest", "v1"]'
+                  username: ${{ secrets.DOCKER_USERNAME }}
+                  password: ${{ secrets.DOCKER_PASSWORD }}
+                  insecure: true
