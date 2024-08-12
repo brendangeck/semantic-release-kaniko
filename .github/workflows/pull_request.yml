@@ -40,16 +40,12 @@ jobs:
             - name: Checkout code
               uses: actions/checkout@v2
 
-            - name: Install dependencies
-              run: npm install
-
             # The docker build action sets the build context to be within the action directory, so our source files must be there
             - name: Prepare build context for testing
               run: |
                   cp -r ./lib ./.github/actions/integ-tests/lib
                   cp ./package.json ./.github/actions/integ-tests/package.json
                   cp ./package-lock.json ./.github/actions/integ-tests/package-lock.json
-                  cp -r ./node_modules ./.github/actions/integ-tests/node_modules
                   cp -r ./tst/ ./.github/actions/integ-tests/tst/
 
             - name: Run tests

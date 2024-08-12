@@ -21,8 +21,7 @@ inputs:
         required: false
     insecure:
         description: 'Use insecure connection in integ tests'
-        required: true
+        required: false
 runs:
     using: 'docker'
     image: 'Dockerfile'
-    entrypoint: 'entrypoint.sh'
