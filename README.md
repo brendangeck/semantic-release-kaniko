@@ -27,7 +27,7 @@ From the [Kaniko](https://github.com/GoogleContainerTools/kaniko/blob/main/READM
 This package must be run in an environment that has Kaniko already installed. We provide a container image with all the necessary dependencies pre-installed, which we strongly recommend using. You can pull the container image with the following command:
 
 ```bash
-docker pull ghcr.io/brendangeck/semantic-release-kaniko:1.0.0
+docker pull ghcr.io/brendangeck/semantic-release-kaniko:latest
 ```
 
 ## Installation
@@ -128,7 +128,7 @@ jobs:
     release:
         runs-on: ubuntu-latest
         container:
-            image: ghcr.io/brendangeck/semantic-release-kaniko:1.0.0
+            image: ghcr.io/brendangeck/semantic-release-kaniko:latest
         steps:
             - name: Checkout code
               uses: actions/checkout@v3
@@ -156,7 +156,7 @@ stages:
 
 release:
     stage: release
-    image: ghcr.io/brendangeck/semantic-release-kaniko:1.0.0
+    image: ghcr.io/brendangeck/semantic-release-kaniko:latest
     script:
         - npm ci
         - npx semantic-release
@@ -175,7 +175,7 @@ version: 2.1
 executors:
     kaniko:
         docker:
-            - image: ghcr.io/brendangeck/semantic-release-kaniko:1.0.0
+            - image: ghcr.io/brendangeck/semantic-release-kaniko:latest
 
 jobs:
     release:

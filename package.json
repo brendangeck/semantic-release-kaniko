@@ -2,7 +2,7 @@
     "name": "@bpgeck/semantic-release-kaniko",
     "version": "0.0.0-semantically-released",
     "description": "A plugin for semantic-release that builds and deploys Docker images in a daemonless environment using Google's open-source tool, Kaniko",
-    "main": "index.js",
+    "main": "index.mjs",
     "type": "module",
     "engines": {
         "node": ">=20.8.1"
