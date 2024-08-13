@@ -10,11 +10,11 @@ COPY --from=kaniko /kaniko/executor /kaniko/executor
 # Set up working directory
 WORKDIR /app
 
+# Install git
+RUN apk add --no-cache git
+
 # Copy package.json and package-lock.json
 COPY package.json package-lock.json ./
 
 # Install dependencies
 RUN npm i
-
-# Copy the rest of the application code
-COPY . .
