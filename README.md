@@ -1,24 +1,36 @@
 # semantic-release-kaniko
 
-[![Version](https://img.shields.io/npm/v/semantic-release-kaniko.svg)](https://www.npmjs.com/package/semantic-release-kaniko)
+[![Version](https://img.shields.io/npm/v/semantic-release-kaniko.svg)](https://www.npmjs.com/package/@bpgeck/semantic-release-kaniko)
 [![License](https://img.shields.io/npm/l/semantic-release-kaniko.svg)](https://github.com/brendangeck/semantic-release-kaniko/blob/main/LICENSE)
 
 ## Overview
 
-`semantic-release-kaniko` is a powerful and efficient plugin for `semantic-release` that facilitates the building and deployment of Docker images in a daemonless environment using [Kaniko](https://github.com/GoogleContainerTools/kaniko/). This plugin is designed to streamline your CI/CD pipeline by leveraging Kaniko's advanced container management capabilities.
+[`semantic-release-kaniko`](https://www.npmjs.com/package/@bpgeck/semantic-release-kaniko) is a powerful and efficient plugin for `semantic-release` that facilitates the building and deployment of Docker images in a daemonless environment using Google's open-source tool, [Kaniko](https://github.com/GoogleContainerTools/kaniko/).
 
-## Features
+From the [Kaniko](https://github.com/GoogleContainerTools/kaniko/blob/main/README.md) docs:
 
--   **Daemonless Operation**: Utilizes Kaniko to build and publish containers without requiring a running daemon.
--   **Automated Docker Image Management**: Automatically builds and pushes Docker images based on your semantic versioning strategy.
--   **Cross-Platform Support**: Compatible with major operating systems including macOS, Linux, and Windows.
--   **Seamless Integration**: Easily integrates with existing `semantic-release` workflows.
+> kaniko is a tool to build container images from a Dockerfile, inside a container or Kubernetes cluster.
+>
+> kaniko doesn't depend on a Docker daemon and executes each command within a Dockerfile completely in userspace. This enables building container images in environments that can't easily or securely run a Docker daemon, such as a standard Kubernetes cluster.
+
+## Benefits
+
+-   **Daemonless Container Building**: Leverages Kaniko for building containers without requiring a Docker daemon, ideal for CI/CD environments.
+-   **Secure Image Building**: Builds images in userspace, enhancing security by avoiding the need for root privileges.
+-   **CI/CD Optimization**: Streamlines your pipeline by integrating container building and publishing directly into your semantic release process.
+-   **Version-Aware Tagging**: Automatically tags your Docker images with semantic version numbers, ensuring consistency between your code and container versions.
+-   **Flexible Configuration**: Supports custom Dockerfile paths, multiple image tags, and various registry configurations to fit your specific needs.
+-   **Cross-Platform Compatibility**: Works across different CI/CD platforms and environments that support Node.js and Kaniko.
+-   **Automated Publishing**: Pushes built images to your specified Docker registry as part of the release process, reducing manual steps.
+-   **Integration with semantic-release**: Seamlessly fits into existing semantic-release workflows, maintaining a cohesive release strategy.
 
 ## Installation
 
-To install `semantic-release-kaniko`, run the following command:
+To install run the following command:
 
-npm install --save-dev semantic-release-kaniko
+```bash
+npm install --save-dev @bpgeck/semantic-release-kaniko
+```
 
 ## Usage
 
@@ -29,7 +41,7 @@ Add semantic-release-kaniko to your semantic-release configuration:
     "plugins": [
         "@semantic-release/commit-analyzer",
         "@semantic-release/git",
-        "semantic-release-kaniko"
+        "@bpgeck/semantic-release-kaniko"
     ]
 }
 ```
@@ -43,7 +55,7 @@ module.exports = {
         '@semantic-release/commit-analyzer',
         '@semantic-release/git',
         [
-            'semantic-release-kaniko',
+            '@bpgeck/semantic-release-kaniko',
             {
                 registry: 'registry.example.com',
                 project: 'my-project',
@@ -60,15 +72,15 @@ module.exports = {
 
 ## Configuration
 
-| Option   | Description                                                        |
-| -------- | ------------------------------------------------------------------ |
-| registry | The Docker registry to push images to.                             |
-| project  | The project name in the Docker registry.                           |
-| image    | The Docker image name.                                             |
-| tags     | An array of tags to apply to the Docker image.                     |
-| username | (Optional) The username for Docker registry authentication.        |
-| password | (Optional) The password for Docker registry authentication.        |
-| insecure | (Optional) Set to `true` to skip Docker registry TLS verification. |
+| Option   | Description                                                                                                                          |
+| -------- | ------------------------------------------------------------------------------------------------------------------------------------ |
+| registry | The Docker registry to push images to.                                                                                               |
+| project  | The project name in the Docker registry.                                                                                             |
+| image    | The Docker image name.                                                                                                               |
+| tags     | An array of tags to apply to the Docker image.                                                                                       |
+| username | (Optional) The username for Docker registry authentication.                                                                          |
+| password | (Optional) The password for Docker registry authentication.                                                                          |
+| insecure | (Optional) Set to `true` to skip Docker registry TLS verification. This should be used only for testing or development environments. |
 
 ## Contributing
 
