@@ -50,16 +50,16 @@ branches:
 plugins:
     - '@semantic-release/commit-analyzer'
     - '@semantic-release/git'
-    - '@bpgeck/semantic-release-kaniko':
-          registry: 'registry.example.com'
-          project: 'my-project'
-          image: 'my-image'
-          tags:
-              - '${version}'
-              - 'latest'
-          username: ${DOCKER_USERNAME}
-          password: ${DOCKER_PASSWORD}
-          insecure: false
+    - - '@bpgeck/semantic-release-kaniko'
+      - registry: 'registry.example.com'
+        project: 'my-project'
+        image: 'my-image'
+        tags:
+            - '${version}'
+            - 'latest'
+        username: ${DOCKER_USERNAME}
+        password: ${DOCKER_PASSWORD}
+        insecure: false
 ```
 
 ### JSON Example

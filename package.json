@@ -46,5 +46,9 @@
     },
     "publishConfig": {
         "access": "public"
-    }
+    },
+    "bugs": {
+        "url": "https://github.com/brendangeck/semantic-release-kaniko/issues"
+    },
+    "homepage": "https://github.com/brendangeck/semantic-release-kaniko#readme"
 }
