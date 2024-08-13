@@ -5,7 +5,7 @@
 
 ## Overview
 
-[`semantic-release-kaniko`](https://www.npmjs.com/package/@bpgeck/semantic-release-kaniko) is a powerful and efficient plugin for `semantic-release` that facilitates the building and deployment of Docker images in a daemonless environment using Google's open-source tool, [Kaniko](https://github.com/GoogleContainerTools/kaniko/).
+[`semantic-release-kaniko`](https://www.npmjs.com/package/@bpgeck/semantic-release-kaniko) is a plugin for `semantic-release` that builds and deploys of Docker images in a daemonless environment using Google's open-source tool, [Kaniko](https://github.com/GoogleContainerTools/kaniko/).
 
 From the [Kaniko](https://github.com/GoogleContainerTools/kaniko/blob/main/README.md) docs:
 
@@ -15,14 +15,12 @@ From the [Kaniko](https://github.com/GoogleContainerTools/kaniko/blob/main/READM
 
 ## Benefits
 
--   **Daemonless Container Building**: Leverages Kaniko for building containers without requiring a Docker daemon, ideal for CI/CD environments.
+-   **Daemonless Container Building**: Builds images without requiring a Docker daemon or docker-in-docker setup, ideal for CI/CD environments.
 -   **Secure Image Building**: Builds images in userspace, enhancing security by avoiding the need for root privileges.
--   **CI/CD Optimization**: Streamlines your pipeline by integrating container building and publishing directly into your semantic release process.
 -   **Version-Aware Tagging**: Automatically tags your Docker images with semantic version numbers, ensuring consistency between your code and container versions.
 -   **Flexible Configuration**: Supports custom Dockerfile paths, multiple image tags, and various registry configurations to fit your specific needs.
 -   **Cross-Platform Compatibility**: Works across different CI/CD platforms and environments that support Node.js and Kaniko.
 -   **Automated Publishing**: Pushes built images to your specified Docker registry as part of the release process, reducing manual steps.
--   **Integration with semantic-release**: Seamlessly fits into existing semantic-release workflows, maintaining a cohesive release strategy.
 
 ## Installation
 
