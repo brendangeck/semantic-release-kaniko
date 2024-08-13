@@ -5,7 +5,7 @@
 
 ## Overview
 
-[`@bpgeck/semantic-release-kaniko`](https://www.npmjs.com/package/@bpgeck/semantic-release-kaniko) is a plugin for `semantic-release` that builds and deploys of Docker images in a daemonless environment using Google's open-source tool, [Kaniko](https://github.com/GoogleContainerTools/kaniko/).
+[`@bpgeck/semantic-release-kaniko`](https://www.npmjs.com/package/@bpgeck/semantic-release-kaniko) is a plugin for `semantic-release` that builds and deploys Docker images in a daemonless environment using Google's open-source tool, [Kaniko](https://github.com/GoogleContainerTools/kaniko/).
 
 From the [Kaniko](https://github.com/GoogleContainerTools/kaniko/blob/main/README.md) docs:
 
@@ -22,9 +22,17 @@ From the [Kaniko](https://github.com/GoogleContainerTools/kaniko/blob/main/READM
 -   **Cross-Platform Compatibility**: Works across different CI/CD platforms and environments that support Node.js and Kaniko.
 -   **Automated Publishing**: Pushes built images to your specified Docker registry as part of the release process, reducing manual steps.
 
+## Prerequisites
+
+This package must be run in an environment that has Kaniko already installed. We provide a container image with all the necessary dependencies pre-installed, which we strongly recommend using. You can pull the container image with the following command:
+
+```bash
+docker pull ghcr.io/brendangeck/semantic-release-kaniko:1.0.0
+```
+
 ## Installation
 
-To install run the following command:
+To install, use the following command:
 
 ```bash
 npm install --save-dev @bpgeck/semantic-release-kaniko
@@ -32,29 +40,55 @@ npm install --save-dev @bpgeck/semantic-release-kaniko
 
 ## Usage
 
-Add semantic-release-kaniko to your semantic-release configuration:
+Add `@bpgeck/semantic-release-kaniko` to your semantic-release configuration. Here are examples of different `.releaserc` file formats:
 
-With YAML
+### YAML Example
+
 ```yaml
 branches:
-  - main
+    - main
 plugins:
-  - '@semantic-release/commit-analyzer'
-  - '@semantic-release/git'
-  - '@bpgeck/semantic-release-kaniko':
-      registry: 'registry.example.com'
-      project: 'my-project'
-      image: 'my-image'
-      tags:
-        - '${version}'
-        - 'latest'
-      username: ${DOCKER_USERNAME}
-      password: ${DOCKER_PASSWORD}
-      insecure: false
+    - '@semantic-release/commit-analyzer'
+    - '@semantic-release/git'
+    - '@bpgeck/semantic-release-kaniko':
+          registry: 'registry.example.com'
+          project: 'my-project'
+          image: 'my-image'
+          tags:
+              - '${version}'
+              - 'latest'
+          username: ${DOCKER_USERNAME}
+          password: ${DOCKER_PASSWORD}
+          insecure: false
 ```
 
-With JSON
+### JSON Example
+
+```json
+{
+    "branches": ["main"],
+    "plugins": [
+        "@semantic-release/commit-analyzer",
+        "@semantic-release/git",
+        [
+            "@bpgeck/semantic-release-kaniko",
+            {
+                "registry": "registry.example.com",
+                "project": "my-project",
+                "image": "my-image",
+                "tags": ["${version}", "latest"],
+                "username": "${DOCKER_USERNAME}",
+                "password": "${DOCKER_PASSWORD}",
+                "insecure": false
+            }
+        ]
+    ]
+}
 ```
+
+### JavaScript Example
+
+```javascript
 module.exports = {
     branches: ['main'],
     plugins: [
@@ -74,6 +108,98 @@ module.exports = {
         ],
     ],
 };
+```
+
+## Example Workflows
+
+Below are examples of how to use this package in popular CI environments.
+
+### GitHub Actions
+
+```yaml
+name: Release
+
+on:
+    push:
+        branches:
+            - main
+
+jobs:
+    release:
+        runs-on: ubuntu-latest
+        container:
+            image: ghcr.io/brendangeck/semantic-release-kaniko:1.0.0
+        steps:
+            - name: Checkout code
+              uses: actions/checkout@v3
+
+            - name: Set up Node.js
+              uses: actions/setup-node@v3
+              with:
+                  node-version: '20.x'
+
+            - name: Install dependencies
+              run: npm ci
+
+            - name: Release
+              run: npx semantic-release
+              env:
+                  DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+                  DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+```
+
+### GitLab CI
+
+```yaml
+stages:
+    - release
+
+release:
+    stage: release
+    image: ghcr.io/brendangeck/semantic-release-kaniko:1.0.0
+    script:
+        - npm ci
+        - npx semantic-release
+    only:
+        - main
+    variables:
+        DOCKER_USERNAME: $DOCKER_USERNAME
+        DOCKER_PASSWORD: $DOCKER_PASSWORD
+```
+
+### CircleCI
+
+```yaml
+version: 2.1
+
+executors:
+    kaniko:
+        docker:
+            - image: ghcr.io/brendangeck/semantic-release-kaniko:1.0.0
+
+jobs:
+    release:
+        executor: kaniko
+        steps:
+            - checkout
+            - run:
+                  name: Install dependencies
+                  command: npm ci
+            - run:
+                  name: Run semantic-release
+                  command: npx semantic-release
+                  environment:
+                      DOCKER_USERNAME: $DOCKER_USERNAME
+                      DOCKER_PASSWORD: $DOCKER_PASSWORD
+
+workflows:
+    version: 2
+    release:
+        jobs:
+            - release:
+                  filters:
+                      branches:
+                          only: main
 ```
 
 ## Configuration
