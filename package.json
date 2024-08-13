@@ -40,10 +40,7 @@
         "eslint-plugin-prettier": "^5.2.1",
         "globals": "^15.9.0",
         "mocha": "^10.7.0",
-        "semantic-release": "^19.0.3"
-    },
-    "peerDependencies": {
-        "semantic-release": ">=18.0.0"
+        "semantic-release": "^24.0.0"
     },
     "repository": {
         "type": "git",
