@@ -1,4 +1,4 @@
-import { verifyConditions } from '../../lib/verifyConditions.js';
+import { verifyConditions } from '../../lib/verifyConditions.mjs';
 import assert from 'assert';
 import SemanticReleaseError from '@semantic-release/error';
 

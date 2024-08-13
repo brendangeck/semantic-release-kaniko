@@ -1,5 +1,5 @@
-import { prepare } from '../../lib/prepare.js';
-import { publish } from '../../lib/publish.js';
+import { prepare } from '../../lib/prepare.mjs';
+import { publish } from '../../lib/publish.mjs';
 import assert from 'assert';
 
 // Merging prepare and publish into the same test suite to guarantee they run in order
