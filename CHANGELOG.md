@@ -1,3 +1,10 @@
+## [1.0.2](https://github.com/brendangeck/semantic-release-kaniko/compare/v1.0.1...v1.0.2) (2024-08-13)
+
+
+### Bug Fixes
+
+* Adding YAML instructions to README ([#8](https://github.com/brendangeck/semantic-release-kaniko/issues/8)) ([203db68](https://github.com/brendangeck/semantic-release-kaniko/commit/203db685d759a49a048304670327339cecafc33f))
+
 ## [1.0.1](https://github.com/brendangeck/semantic-release-kaniko/compare/v1.0.0...v1.0.1) (2024-08-13)
 
 

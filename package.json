@@ -1,6 +1,6 @@
 {
     "name": "@bpgeck/semantic-release-kaniko",
-    "version": "1.0.1",
+    "version": "1.0.2",
     "description": "A semantic-release plugin for building and deploying Docker images in a daemonless environment using Kaniko",
     "main": "index.js",
     "type": "module",
