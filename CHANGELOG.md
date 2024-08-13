@@ -1,3 +1,10 @@
+## [1.0.1](https://github.com/brendangeck/semantic-release-kaniko/compare/v1.0.0...v1.0.1) (2024-08-13)
+
+
+### Bug Fixes
+
+* Correcting install instructions and other general README improvements ([#7](https://github.com/brendangeck/semantic-release-kaniko/issues/7)) ([7110e32](https://github.com/brendangeck/semantic-release-kaniko/commit/7110e3247a2c24da16261b7a7b79cb724e17f763))
+
 # 1.0.0 (2024-08-13)
 
 
