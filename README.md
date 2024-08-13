@@ -1,7 +1,7 @@
 # @bpgeck/semantic-release-kaniko
 
 [![Version](https://img.shields.io/npm/v/@bpgeck/semantic-release-kaniko.svg)](https://www.npmjs.com/package/@bpgeck/semantic-release-kaniko)
-[![License](https://img.shields.io/npm/l/semantic-release-kaniko.svg)](https://github.com/brendangeck/semantic-release-kaniko/blob/main/LICENSE)
+[![License](https://img.shields.io/npm/l/@bpgeck/semantic-release-kaniko.svg)](https://github.com/brendangeck/semantic-release-kaniko/blob/main/LICENSE)
 
 ## Overview
 
