@@ -5,7 +5,7 @@
 
 ## Overview
 
-[`semantic-release-kaniko`](https://www.npmjs.com/package/@bpgeck/semantic-release-kaniko) is a plugin for `semantic-release` that builds and deploys of Docker images in a daemonless environment using Google's open-source tool, [Kaniko](https://github.com/GoogleContainerTools/kaniko/).
+[`@bpgeck/semantic-release-kaniko`](https://www.npmjs.com/package/@bpgeck/semantic-release-kaniko) is a plugin for `semantic-release` that builds and deploys of Docker images in a daemonless environment using Google's open-source tool, [Kaniko](https://github.com/GoogleContainerTools/kaniko/).
 
 From the [Kaniko](https://github.com/GoogleContainerTools/kaniko/blob/main/README.md) docs:
 
@@ -34,18 +34,26 @@ npm install --save-dev @bpgeck/semantic-release-kaniko
 
 Add semantic-release-kaniko to your semantic-release configuration:
 
-```
-{
-    "plugins": [
-        "@semantic-release/commit-analyzer",
-        "@semantic-release/git",
-        "@bpgeck/semantic-release-kaniko"
-    ]
-}
+With YAML
+```yaml
+branches:
+  - main
+plugins:
+  - '@semantic-release/commit-analyzer'
+  - '@semantic-release/git'
+  - '@bpgeck/semantic-release-kaniko':
+      registry: 'registry.example.com'
+      project: 'my-project'
+      image: 'my-image'
+      tags:
+        - '${version}'
+        - 'latest'
+      username: ${DOCKER_USERNAME}
+      password: ${DOCKER_PASSWORD}
+      insecure: false
 ```
 
-Configure the plugin in your release.config.js:
-
+With JSON
 ```
 module.exports = {
     branches: ['main'],
