@@ -3,9 +3,8 @@ import assert from 'assert';
 import SemanticReleaseError from '@semantic-release/error';
 
 const validConfig = {
-    project: 'test-project',
-    image: 'test-image',
-    tags: ['latest', 'v1.0.0'],
+    image: 'test-project/test-image',
+    tags: ['latest', '${version}'],
     registry: 'mock-registry:5000',
     dockerfile: 'Dockerfile',
 };
@@ -19,61 +18,37 @@ describe('Verify Conditions', function () {
 
     it('should fail if Dockerfile is missing', async () => {
         const invalidConfig = { ...validConfig, dockerfile: 'NonExistentDockerfile' };
-
-        try {
-            await verifyConditions(invalidConfig, context);
-            assert.fail('Expected an error due to missing Dockerfile');
-        } catch (error) {
+        await assert.rejects(verifyConditions(invalidConfig, context), error => {
             assert(error instanceof SemanticReleaseError);
             assert.strictEqual(error.code, 'EDOCKERFILENOTFOUND');
-        }
+            return true;
+        });
     });
 
     it('should fail if registry is missing in configuration', async () => {
         const invalidConfig = { ...validConfig, registry: null };
-
-        try {
-            await verifyConditions(invalidConfig, context);
-            assert.fail('Expected an error due to missing registry');
-        } catch (error) {
+        await assert.rejects(verifyConditions(invalidConfig, context), error => {
             assert(error instanceof SemanticReleaseError);
             assert.strictEqual(error.code, 'EMISSINGREGISTRY');
-        }
-    });
-
-    it('should fail if project is missing in configuration', async () => {
-        const invalidConfig = { ...validConfig, project: null };
-
-        try {
-            await verifyConditions(invalidConfig, context);
-            assert.fail('Expected an error due to missing project name');
-        } catch (error) {
-            assert(error instanceof SemanticReleaseError);
-            assert.strictEqual(error.code, 'EMISSINGPROJECT');
-        }
+            return true;
+        });
     });
 
     it('should fail if image is missing in configuration', async () => {
         const invalidConfig = { ...validConfig, image: null };
-
-        try {
-            await verifyConditions(invalidConfig, context);
-            assert.fail('Expected an error due to missing image name');
-        } catch (error) {
+        await assert.rejects(verifyConditions(invalidConfig, context), error => {
             assert(error instanceof SemanticReleaseError);
             assert.strictEqual(error.code, 'EMISSINGIMAGE');
-        }
+            return true;
+        });
     });
 
     it('should fail if tags are missing in configuration', async () => {
         const invalidConfig = { ...validConfig, tags: [] };
-
-        try {
-            await verifyConditions(invalidConfig, context);
-            assert.fail('Expected an error due to missing tags');
-        } catch (error) {
+        await assert.rejects(verifyConditions(invalidConfig, context), error => {
             assert(error instanceof SemanticReleaseError);
             assert.strictEqual(error.code, 'EMISSINGTAGS');
-        }
+            return true;
+        });
     });
 });

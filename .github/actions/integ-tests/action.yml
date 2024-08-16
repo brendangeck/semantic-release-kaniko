@@ -4,9 +4,6 @@ inputs:
     registry:
         description: 'The Docker registry to push images to'
         required: true
-    project:
-        description: 'The project name in the Docker registry'
-        required: true
     image:
         description: 'The Docker image name'
         required: true

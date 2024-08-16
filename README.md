@@ -52,8 +52,7 @@ plugins:
     - '@semantic-release/git'
     - - '@bpgeck/semantic-release-kaniko'
       - registry: 'registry.example.com'
-        project: 'my-project'
-        image: 'my-image'
+        image: 'my-project/my-image'
         tags:
             - '${version}'
             - 'latest'
@@ -74,8 +73,7 @@ plugins:
             "@bpgeck/semantic-release-kaniko",
             {
                 "registry": "registry.example.com",
-                "project": "my-project",
-                "image": "my-image",
+                "image": "my-project/my-image",
                 "tags": ["${version}", "latest"],
                 "username": "${DOCKER_USERNAME}",
                 "password": "${DOCKER_PASSWORD}",
@@ -98,8 +96,7 @@ module.exports = {
             '@bpgeck/semantic-release-kaniko',
             {
                 registry: 'registry.example.com',
-                project: 'my-project',
-                image: 'my-image',
+                image: 'my-project/my-image',
                 tags: ['${version}', 'latest'],
                 username: process.env.DOCKER_USERNAME,
                 password: process.env.DOCKER_PASSWORD,
@@ -207,7 +204,6 @@ workflows:
 | Option   | Description                                                                                                                          |
 | -------- | ------------------------------------------------------------------------------------------------------------------------------------ |
 | registry | The Docker registry to push images to.                                                                                               |
-| project  | The project name in the Docker registry.                                                                                             |
 | image    | The Docker image name.                                                                                                               |
 | tags     | An array of tags to apply to the Docker image.                                                                                       |
 | username | (Optional) The username for Docker registry authentication.                                                                          |
