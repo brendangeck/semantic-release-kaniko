@@ -20,8 +20,7 @@ describe('Prepare and Publish', function () {
 
         pluginConfig = {
             registry: 'mock-registry:5000',
-            project: 'my-project',
-            image: 'my-image',
+            image: 'my-project/my-image',
             tags: ['${version}', 'latest'],
             dockerfile: 'tst/integ/resources/test.Dockerfile',
             username: 'test-user',
