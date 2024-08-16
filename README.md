@@ -201,14 +201,21 @@ workflows:
 
 ## Configuration
 
-| Option   | Description                                                                                                                          |
-| -------- | ------------------------------------------------------------------------------------------------------------------------------------ |
-| registry | The Docker registry to push images to.                                                                                               |
-| image    | The Docker image name.                                                                                                               |
-| tags     | An array of tags to apply to the Docker image.                                                                                       |
-| username | (Optional) The username for Docker registry authentication.                                                                          |
-| password | (Optional) The password for Docker registry authentication.                                                                          |
-| insecure | (Optional) Set to `true` to skip Docker registry TLS verification. This should be used only for testing or development environments. |
+| .releaserc | env var         | Description                                                                                                                          |
+| ---------- | --------------- | ------------------------------------------------------------------------------------------------------------------------------------ |
+| registry   | REGISTRY        | The Docker registry to push images to.                                                                                               |
+| image      | IMAGE           | The Docker image name.                                                                                                               |
+| tags       | TAGS            | An array of tags to apply to the Docker image. For env var, a comma-separated list of tags to apply to the image.                    |
+| dockerfile | DOCKERFILE      | (Optional) The path to the Dockerfile to be built into a Docker image. Defaults to 'Dockerfile'                                      |
+| username   | DOCKER_USERNAME | (Optional) The username for Docker registry authentication.                                                                          |
+| password   | DOCKER_PASSWORD | (Optional) The password for Docker registry authentication.                                                                          |
+| insecure   | INSECURE        | (Optional) Set to `true` to skip Docker registry TLS verification. This should be used only for testing or development environments. |
+| target     | TARGET          | (Optional) The target build stage to build in a multi-stage Dockerfile.                                                              |
+| cache      | CACHE           | (Optional) Set to `true` to enable caching in Kaniko.                                                                                |
+| cacheTTL   | CACHE_TTL       | (Optional) TTL for cached layers. Cache must be set to `true`. Defaults to '24h' if cache is enabled.                                |
+| kanikoDir  | KANIKO_DIR      | (Optional) Specify the directory where Kaniko will store its intermediate files, such as the image layers, during the build process  |
+
+.releaserc configuration takes precedence over environment variables if both are provided.
 
 ## Contributing
 
