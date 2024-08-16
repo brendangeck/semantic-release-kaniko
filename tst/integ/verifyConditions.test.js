@@ -16,6 +16,16 @@ const context = {
 describe('Verify Conditions', function () {
     this.timeout(20000);
 
+    let originalEnv;
+
+    beforeEach(() => {
+        originalEnv = { ...process.env };
+    });
+
+    afterEach(() => {
+        process.env = originalEnv;
+    });
+
     it('should fail if Dockerfile is missing', async () => {
         const invalidConfig = { ...validConfig, dockerfile: 'NonExistentDockerfile' };
         await assert.rejects(verifyConditions(invalidConfig, context), error => {
@@ -50,5 +60,15 @@ describe('Verify Conditions', function () {
             assert.strictEqual(error.code, 'EMISSINGTAGS');
             return true;
         });
+    });
+
+    it('should use environment variables when config is not provided', async () => {
+        process.env.IMAGE = 'env-test-image';
+        process.env.TAGS = 'latest,${version}';
+        process.env.REGISTRY = 'env-registry:5000';
+        process.env.DOCKERFILE = 'tst/integ/resources/test.Dockerfile';
+
+        const emptyConfig = {};
+        await verifyConditions(emptyConfig, { logger: console });
     });
 });
