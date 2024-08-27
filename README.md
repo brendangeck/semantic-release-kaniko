@@ -214,6 +214,7 @@ workflows:
 | cache      | CACHE           | (Optional) Set to `true` to enable caching in Kaniko.                                                                                |
 | cacheTTL   | CACHE_TTL       | (Optional) TTL for cached layers. Cache must be set to `true`. Defaults to '24h' if cache is enabled.                                |
 | kanikoDir  | KANIKO_DIR      | (Optional) Specify the directory where Kaniko will store its intermediate files, such as the image layers, during the build process  |
+| kanikoArgs | KANIKO_ARGS     | (Optional) Additional arguments to provide to the Kaniko binary (e.g. `--ignore-var-run`)                                            |
 
 .releaserc configuration takes precedence over environment variables if both are provided.
 
