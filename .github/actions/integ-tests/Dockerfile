@@ -16,8 +16,4 @@ COPY entrypoint.sh /entrypoint.sh
 # Make the script executable
 RUN chmod +x /entrypoint.sh
 
-# Set the entrypoint
-ARG testFile
-ENV TEST_FILE=${testFile}
-
 ENTRYPOINT ["/entrypoint.sh"]

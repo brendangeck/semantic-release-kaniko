@@ -1,11 +1,5 @@
 name: 'semantic-release-kaniko containerized integration tests'
 description: 'Intended for internal use only. Runs the integration tests in a containerized environment.'
-inputs:
-    testFile:
-        description: 'The integration test file'
-        required: false
 runs:
     using: 'docker'
     image: 'Dockerfile'
-    args:
-        - ${{ inputs.testFile }}

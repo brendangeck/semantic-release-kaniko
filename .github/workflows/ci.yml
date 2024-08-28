@@ -44,8 +44,8 @@ jobs:
                   cp -r ./tst/ ./.github/actions/integ-tests/tst/
             - name: Run verifyConditions tests
               uses: ./.github/actions/integ-tests
-              with:
-                  testFile: ./.github/actions/integ-tests/tst/integ/verifyConditions.test.js
+              env:
+                  TEST_FILE: ./.github/actions/integ-tests/tst/integ/verifyConditions.test.js
 
     prepare-publish-test:
         name: Prepare Publish Test
@@ -67,8 +67,8 @@ jobs:
                   cp -r ./tst/ ./.github/actions/integ-tests/tst/
             - name: Run preparePublish tests
               uses: ./.github/actions/integ-tests
-              with:
-                  testFile: ./.github/actions/integ-tests/tst/integ/preparePublish.test.js
+              env:
+                  TEST_FILE: ./.github/actions/integ-tests/tst/integ/preparePublish.test.js
 
     dry-run-release:
         name: Dry Run Release
