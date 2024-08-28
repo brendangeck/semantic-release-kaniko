@@ -32,6 +32,8 @@ This flag allows you to pass in build arguments as key-value pairs. Use an array
 BUILD_ARG='[{"name":"MY_VAR","value":"value with spaces"},{"name":"MY_VAR_2","value":"ValueWithNoSpaces"}]'
 ```
 
+Note that passing values that contain spaces is not natively supported - you need to ensure that the IFS is set to null before your executor command. You can set this by setting the `IFS` env var like so: `IFS=''`
+
 ### cache
 
 This flag enables the use of cache when building the image.
