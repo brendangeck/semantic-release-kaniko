@@ -45,7 +45,7 @@ jobs:
             - name: Run verifyConditions tests
               uses: ./.github/actions/integ-tests
               with:
-                  integTestFile: ./.github/actions/integ-tests/tst/integ/verifyConditions.test.js
+                  testFile: ./.github/actions/integ-tests/tst/integ/verifyConditions.test.js
 
     prepare-publish-test:
         name: Prepare Publish Test
@@ -68,7 +68,7 @@ jobs:
             - name: Run preparePublish tests
               uses: ./.github/actions/integ-tests
               with:
-                  integTestFile: ./.github/actions/integ-tests/tst/integ/preparePublish.test.js
+                  testFile: ./.github/actions/integ-tests/tst/integ/preparePublish.test.js
 
     dry-run-release:
         name: Dry Run Release
