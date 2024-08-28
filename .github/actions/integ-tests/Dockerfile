@@ -18,4 +18,6 @@ RUN chmod +x /entrypoint.sh
 
 # Set the entrypoint
 ARG testFile
-ENTRYPOINT ["/entrypoint.sh", $testFile]
+ENV TEST_FILE=${testFile}
+
+ENTRYPOINT ["/entrypoint.sh"]
