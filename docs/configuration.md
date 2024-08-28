@@ -2,11 +2,13 @@
 
 ## Supported Kaniko Flags
 
-This section lists the flags supported by the `@bpgeck/semantic-release-kaniko` plugin. All are directly from [Kaniko](https://github.com/GoogleContainerTools/kaniko?tab=readme-ov-file#additional-flags)
+This section lists the flags supported by the `@bpgeck/semantic-release-kaniko` plugin. All are directly from [Kaniko](https://github.com/GoogleContainerTools/kaniko?tab=readme-ov-file#additional-flags).
+
+We allow using either `.releaserc` or environment variables to configure the plugin. If both are set, the configuration in `.releaserc` is preferred. Environment variables should be represented as JSON if they contain anything more than a single key-value pair.
 
 ### buildArg
 
-This flag allows you to pass in ARG values at build time. Use an array for multiple values.
+This flag allows you to pass in build arguments as key-value pairs. Use an array of objects for multiple values.
 
 **.releaserc:**
 
@@ -15,7 +17,10 @@ This flag allows you to pass in ARG values at build time. Use an array for multi
     "plugins": [
         "@bpgeck/semantic-release-kaniko",
         {
-            "buildArg": ["MY_VAR='value with spaces'", "MY_VAR_2=ValueWithNoSpaces"]
+            "buildArg": [
+                {"name": "MY_VAR", "value": "value with spaces"},
+                {"name": "MY_VAR_2", "value": "ValueWithNoSpaces"}
+            ]
         }
     ]
 }
@@ -24,7 +29,7 @@ This flag allows you to pass in ARG values at build time. Use an array for multi
 **Environment variable:**
 
 ```shell
-BUILD_ARG="MY_VAR='value with spaces',MY_VAR_2=ValueWithNoSpaces"
+BUILD_ARG='[{"name":"MY_VAR","value":"value with spaces"},{"name":"MY_VAR_2","value":"ValueWithNoSpaces"}]'
 ```
 
 ### cache
@@ -47,7 +52,7 @@ This flag enables the use of cache when building the image.
 **Environment variable:**
 
 ```shell
-CACHE="true"
+CACHE=true
 ```
 
 ### cacheCopyLayers
@@ -70,12 +75,12 @@ This flag enables caching of copy layers.
 **Environment variable:**
 
 ```shell
-CACHE_COPY_LAYERS="true"
+CACHE_COPY_LAYERS=true
 ```
 
 ### cacheDir
 
-This flag specifies a local directory to use as a cache. The default value is "/cache".
+This flag specifies a local directory to use as a cache.
 
 **.releaserc:**
 
@@ -98,7 +103,7 @@ CACHE_DIR="/custom/cache/directory"
 
 ### cacheRepo
 
-This flag specifies a repository to use as a cache. If not provided, one will be inferred from the destination. When prefixed with 'oci:', the repository will be written in OCI image layout format at the path provided.
+This flag specifies a repository to use as a cache.
 
 **.releaserc:**
 
@@ -121,7 +126,7 @@ CACHE_REPO="oci:/path/to/cache/repo"
 
 ### cacheRunLayers
 
-This flag enables caching of run layers. It is set to true by default.
+This flag enables caching of run layers.
 
 **.releaserc:**
 
@@ -139,12 +144,12 @@ This flag enables caching of run layers. It is set to true by default.
 **Environment variable:**
 
 ```shell
-CACHE_RUN_LAYERS="true"
+CACHE_RUN_LAYERS=true
 ```
 
 ### cacheTTL
 
-This flag sets the cache timeout. It requires a value and unit of duration, for example, "6h". The default is two weeks (336h0m0s).
+This flag sets the cache timeout with a value and unit of duration.
 
 **.releaserc:**
 
@@ -185,12 +190,12 @@ This flag enables cleaning the filesystem at the end of the build.
 **Environment variable:**
 
 ```shell
-CLEANUP="true"
+CLEANUP=true
 ```
 
 ### compressedCaching
 
-This flag enables compression of cached layers. It decreases build time but increases memory usage. It is set to true by default.
+This flag enables compression of cached layers.
 
 **.releaserc:**
 
@@ -208,12 +213,12 @@ This flag enables compression of cached layers. It decreases build time but incr
 **Environment variable:**
 
 ```shell
-COMPRESSED_CACHING="true"
+COMPRESSED_CACHING=true
 ```
 
 ### compression
 
-This flag specifies the compression algorithm to use. Options are "gzip" or "zstd".
+This flag specifies the compression algorithm to use.
 
 **.releaserc:**
 
@@ -236,7 +241,7 @@ COMPRESSION="zstd"
 
 ### compressionLevel
 
-This flag sets the compression level. The default value is -1.
+This flag sets the compression level.
 
 **.releaserc:**
 
@@ -254,12 +259,12 @@ This flag sets the compression level. The default value is -1.
 **Environment variable:**
 
 ```shell
-COMPRESSION_LEVEL="5"
+COMPRESSION_LEVEL=5
 ```
 
 ### context
 
-This flag specifies the path to the dockerfile build context. The default value is "/workspace/".
+This flag specifies the path to the dockerfile build context.
 
 **.releaserc:**
 
@@ -282,7 +287,7 @@ CONTEXT="/custom/build/context"
 
 ### contextSubPath
 
-This flag specifies a sub path within the given context.
+This flag specifies a subpath within the given context.
 
 **.releaserc:**
 
@@ -305,7 +310,7 @@ CONTEXT_SUB_PATH="subdir"
 
 ### customPlatform
 
-This flag specifies the build platform if different from the current host.
+This flag specifies the build platform.
 
 **.releaserc:**
 
@@ -328,7 +333,7 @@ CUSTOM_PLATFORM="linux/arm64"
 
 ### destination
 
-This flag specifies the registry the final image should be pushed to. Use an array for multiple destinations.
+This flag specifies the registry the final image should be pushed to.
 
 **.releaserc:**
 
@@ -349,7 +354,7 @@ This flag specifies the registry the final image should be pushed to. Use an arr
 **Environment variable:**
 
 ```shell
-DESTINATION="registry.example.com/my-project/my-image:${version},registry.example.com/my-project/my-image:latest"
+DESTINATION='["registry.example.com/my-project/my-image:\${version}","registry.example.com/my-project/my-image:latest"]'
 ```
 
 ### digestFile
@@ -377,7 +382,7 @@ DIGEST_FILE="/path/to/digest/file"
 
 ### dockerfile
 
-This flag specifies the path to the dockerfile to be built. The default value is "Dockerfile".
+This flag specifies the path to the dockerfile to be built.
 
 **.releaserc:**
 
@@ -418,12 +423,93 @@ This flag forces building outside of a container.
 **Environment variable:**
 
 ```shell
-FORCE="true"
+FORCE=true
+```
+
+### registryClientCert
+
+This flag specifies client certificates for mutual TLS communication with registries.
+
+**.releaserc:**
+
+```json
+{
+    "plugins": [
+        "@bpgeck/semantic-release-kaniko",
+        {
+            "registryClientCert": {
+                "my.first.registry.url": {
+                    "cert": "/path/to/first/client/cert",
+                    "key": "/path/to/first/client/key"
+                },
+                "my.second.registry.url": {
+                    "cert": "/path/to/second/client/cert",
+                    "key": "/path/to/second/client/key"
+                }
+            }
+        }
+    ]
+}
+```
+
+**Environment variable:**
+
+```shell
+REGISTRY_CLIENT_CERT='{"my.first.registry.url":{"cert":"/path/to/first/client/cert","key":"/path/to/first/client/key"},"my.second.registry.url":{"cert":"/path/to/second/client/cert","key":"/path/to/second/client/key"}}'
+```
+
+Below is how you can add the `--registry-map` flag to your configuration file documentation, including both the `.releaserc` configuration and environment variable representation:
+
+---
+
+### registryMap
+
+This flag allows you to remap registry references. It is useful for scenarios like air-gapped environments, where you might want to redirect registry requests to local mirrors or specific internal registries. You can specify multiple remapped registries for a single original registry. Kaniko will try each remapped registry in order and fall back on the original registry if none of the mirrors are available.
+
+**.releaserc:**
+
+```json
+{
+    "plugins": [
+        "@bpgeck/semantic-release-kaniko",
+        {
+            "registryMap": [
+                {
+                    "original": "index.docker.io",
+                    "remapped": ["docker-io.mirrors.corp.net", "mirror.gcr.io"]
+                },
+                {
+                    "original": "gcr.io",
+                    "remapped": ["127.0.0.1"]
+                },
+                {
+                    "original": "quay.io",
+                    "remapped": ["192.168.0.1:5000"]
+                },
+                {
+                    "original": "docker.io",
+                    "remapped": ["harbor.private.io/theproject"]
+                }
+            ]
+        }
+    ]
+}
+```
+
+**Environment variable:**
+
+```shell
+KANIKO_REGISTRY_MAP='[
+    {"original":"index.docker.io","remapped":["docker-io.mirrors.corp.net","mirror.gcr.io"]},
+    {"original":"gcr.io","remapped":["127.0.0.1"]},
+    {"original":"quay.io","remapped":["192.168.0.1:5000"]},
+    {"original":"docker.io","remapped":["harbor.private.io/theproject"]}
+]'
 ```
 
 ### forceBuildMetadata
 
-This flag forces adding metadata layers to the build image.
+This flag forces the addition of metadata layers to the build image.
 
 **.releaserc:**
 
@@ -441,12 +527,12 @@ This flag forces adding metadata layers to the build image.
 **Environment variable:**
 
 ```shell
-FORCE_BUILD_METADATA="true"
+FORCE_BUILD_METADATA=true
 ```
 
 ### git
 
-This flag specifies git options for cloning if the build context is a git repository.
+This flag specifies git options for cloning when the build context is a git repository.
 
 **.releaserc:**
 
@@ -468,7 +554,7 @@ This flag specifies git options for cloning if the build context is a git reposi
 **Environment variable:**
 
 ```shell
-GIT="branch=main,single-branch=true,recurse-submodules=true"
+GIT='{"branch":"main","singleBranch":true,"recurseSubmodules":true}'
 ```
 
 ### ignorePath
@@ -491,12 +577,12 @@ This flag specifies paths to ignore when taking a snapshot. Use an array for mul
 **Environment variable:**
 
 ```shell
-IGNORE_PATH="/path/to/ignore1,/path/to/ignore2"
+IGNORE_PATH='["/path/to/ignore1","/path/to/ignore2"]'
 ```
 
 ### ignoreVarRun
 
-This flag ignores the /var/run directory when taking an image snapshot. Set it to false to preserve /var/run/ in the destination image. The default value is true.
+This flag controls whether to ignore the `/var/run` directory when taking an image snapshot.
 
 **.releaserc:**
 
@@ -514,14 +600,12 @@ This flag ignores the /var/run directory when taking an image snapshot. Set it t
 **Environment variable:**
 
 ```shell
-IGNORE_VAR_RUN="
-
-false"
+IGNORE_VAR_RUN=false
 ```
 
 ### imageDownloadRetry
 
-This flag specifies the number of retries for downloading the remote image.
+This flag specifies the number of retries for downloading a remote image.
 
 **.releaserc:**
 
@@ -539,12 +623,12 @@ This flag specifies the number of retries for downloading the remote image.
 **Environment variable:**
 
 ```shell
-IMAGE_DOWNLOAD_RETRY="3"
+IMAGE_DOWNLOAD_RETRY=3
 ```
 
 ### imageFsExtractRetry
 
-This flag specifies the number of retries for image filesystem extraction.
+This flag sets the number of retries for extracting the image filesystem.
 
 **.releaserc:**
 
@@ -562,12 +646,12 @@ This flag specifies the number of retries for image filesystem extraction.
 **Environment variable:**
 
 ```shell
-IMAGE_FS_EXTRACT_RETRY="3"
+IMAGE_FS_EXTRACT_RETRY=3
 ```
 
 ### imageNameTagWithDigestFile
 
-This flag specifies a file to save the image name with image tag and digest of the built image to.
+This flag specifies a file to save the image name with tag and digest information.
 
 **.releaserc:**
 
@@ -590,7 +674,7 @@ IMAGE_NAME_TAG_WITH_DIGEST_FILE="/path/to/image/info/file"
 
 ### imageNameWithDigestFile
 
-This flag specifies a file to save the image name with digest of the built image to.
+This flag specifies a file to save the image name with digest information.
 
 **.releaserc:**
 
@@ -631,12 +715,12 @@ This flag enables pushing to an insecure registry using plain HTTP.
 **Environment variable:**
 
 ```shell
-INSECURE="true"
+INSECURE=true
 ```
 
 ### insecurePull
 
-This flag enables pulling from an insecure registry using plain HTTP.
+This flag allows pulling from an insecure registry using plain HTTP.
 
 **.releaserc:**
 
@@ -654,12 +738,12 @@ This flag enables pulling from an insecure registry using plain HTTP.
 **Environment variable:**
 
 ```shell
-INSECURE_PULL="true"
+INSECURE_PULL=true
 ```
 
 ### insecureRegistry
 
-This flag specifies insecure registries using plain HTTP to push and pull. Use an array for multiple registries.
+This flag specifies a list of insecure registries using plain HTTP for both push and pull operations.
 
 **.releaserc:**
 
@@ -677,12 +761,12 @@ This flag specifies insecure registries using plain HTTP to push and pull. Use a
 **Environment variable:**
 
 ```shell
-INSECURE_REGISTRY="registry1.example.com,registry2.example.com"
+INSECURE_REGISTRY='["registry1.example.com","registry2.example.com"]'
 ```
 
 ### kanikoDir
 
-This flag specifies the path to the kaniko directory. It takes precedence over the KANIKO_DIR environment variable. The default value is "/kaniko".
+This flag specifies the path to the Kaniko directory. This setting overrides the `KANIKO_DIR` environment variable.
 
 **.releaserc:**
 
@@ -705,7 +789,7 @@ KANIKO_DIR="/custom/kaniko/dir"
 
 ### label
 
-This flag sets metadata for an image. Use an array for multiple labels.
+This flag sets metadata labels for an image. Use an array of objects for multiple labels.
 
 **.releaserc:**
 
@@ -714,7 +798,10 @@ This flag sets metadata for an image. Use an array for multiple labels.
     "plugins": [
         "@bpgeck/semantic-release-kaniko",
         {
-            "label": ["maintainer=John Doe", "version=1.0.0"]
+            "label": [
+                {"name": "maintainer", "value": "John Doe"},
+                {"name": "version", "value": "1.0.0"}
+            ]
         }
     ]
 }
@@ -723,12 +810,12 @@ This flag sets metadata for an image. Use an array for multiple labels.
 **Environment variable:**
 
 ```shell
-LABEL="maintainer=John Doe,version=1.0.0"
+LABEL='[{"name":"maintainer","value":"John Doe"},{"name":"version","value":"1.0.0"}]'
 ```
 
 ### logFormat
 
-This flag specifies the log format. Options are "text", "color", or "json". The default value is "color".
+This flag specifies the format of the logs. Options are `"text"`, `"color"`, or `"json"`.
 
 **.releaserc:**
 
@@ -751,7 +838,7 @@ LOG_FORMAT="json"
 
 ### logTimestamp
 
-This flag enables timestamp in log output.
+This flag enables timestamps in the log output.
 
 **.releaserc:**
 
@@ -769,12 +856,12 @@ This flag enables timestamp in log output.
 **Environment variable:**
 
 ```shell
-LOG_TIMESTAMP="true"
+LOG_TIMESTAMP=true
 ```
 
 ### noPush
 
-This flag disables pushing the image to the registry.
+This flag disables pushing the built image to the registry.
 
 **.releaserc:**
 
@@ -792,12 +879,12 @@ This flag disables pushing the image to the registry.
 **Environment variable:**
 
 ```shell
-NO_PUSH="true"
+NO_PUSH=true
 ```
 
 ### noPushCache
 
-This flag disables pushing the cache layers to the registry.
+This flag disables pushing cache layers to the registry.
 
 **.releaserc:**
 
@@ -815,12 +902,12 @@ This flag disables pushing the cache layers to the registry.
 **Environment variable:**
 
 ```shell
-NO_PUSH_CACHE="true"
+NO_PUSH_CACHE=true
 ```
 
 ### ociLayoutPath
 
-This flag specifies the path to save the OCI image layout of the built image.
+This flag specifies the path to save the OCI image layout.
 
 **.releaserc:**
 
@@ -843,7 +930,7 @@ OCI_LAYOUT_PATH="/path/to/oci/layout"
 
 ### pushIgnoreImmutableTagErrors
 
-This flag, when set to true, ignores known tag immutability errors and finishes the push operation with success.
+This flag, when set to `true`, ignores tag immutability errors during push operations.
 
 **.releaserc:**
 
@@ -861,7 +948,7 @@ This flag, when set to true, ignores known tag immutability errors and finishes 
 **Environment variable:**
 
 ```shell
-PUSH_IGNORE_IMMUTABLE_TAG_ERRORS="true"
+PUSH_IGNORE_IMMUTABLE_TAG_ERRORS=true
 ```
 
 ### pushRetry
@@ -884,12 +971,12 @@ This flag specifies the number of retries for the push operation.
 **Environment variable:**
 
 ```shell
-PUSH_RETRY="3"
+PUSH_RETRY=3
 ```
 
 ### registryCertificate
 
-This flag specifies the certificate to use for TLS communication with the given registry. Expected format is 'my.registry.url=/path/to/the/server/certificate'.
+This flag specifies the certificate for TLS communication with a given registry.
 
 **.releaserc:**
 
@@ -909,63 +996,12 @@ This flag specifies the certificate to use for TLS communication with the given 
 **Environment variable:**
 
 ```shell
-REGISTRY_CERTIFICATE="my.registry.url=/path/to/the/server/certificate"
-```
-
-### registryClientCert
-
-This flag specifies the client certificate to use for mutual TLS (mTLS) communication with the given registry. Expected format is 'my.registry.url=/path/to/client/cert,/path/to/client/key'.
-
-**.releaserc:**
-
-```json
-{
-    "plugins": [
-        "@bpgeck/semantic-release-kaniko",
-        {
-            "registryClientCert": {
-                "my.registry.url": "/path/to/client/cert,/path/to/client/key"
-            }
-        }
-    ]
-}
-```
-
-**Environment variable:**
-
-```shell
-REGISTRY_CLIENT_CERT="my.registry.url=/path/to/client/cert,/path/to/client/key"
-```
-
-### registryMap
-
-This flag specifies a registry map of mirror to use as pull-through cache instead. Expected format is 'original.registry=new.registry;other-original.registry=other-remap.registry'.
-
-**.releaserc:**
-
-```json
-{
-    "plugins": [
-        "@bpgeck/semantic-release-kaniko",
-        {
-            "registryMap": {
-                "original.registry": "new.registry",
-                "other-original.registry": "other-remap.registry"
-            }
-        }
-    ]
-}
-```
-
-**Environment variable:**
-
-```shell
-REGISTRY_MAP="original.registry=new.registry;other-original.registry=other-remap.registry"
+REGISTRY_CERTIFICATE='{"my.registry.url":"/path/to/the/server/certificate"}'
 ```
 
 ### registryMirror
 
-This flag specifies a registry mirror to use as pull-through cache instead of docker.io. Use an array for multiple mirrors.
+This flag specifies a list of registry mirrors for pull-through caching instead of using docker.io directly.
 
 **.releaserc:**
 
@@ -983,7 +1019,7 @@ This flag specifies a registry mirror to use as pull-through cache instead of do
 **Environment variable:**
 
 ```shell
-REGISTRY_MIRROR="mirror1.example.com,mirror2.example.com"
+REGISTRY_MIRROR='["mirror1.example.com","mirror2.example.com"]'
 ```
 
 ### reproducible
@@ -993,6 +1029,8 @@ This flag strips timestamps out of the image to make it reproducible.
 **.releaserc:**
 
 ```json
+
+
 {
     "plugins": [
         "@bpgeck/semantic-release-kaniko",
@@ -1006,16 +1044,14 @@ This flag strips timestamps out of the image to make it reproducible.
 **Environment variable:**
 
 ```shell
-REPRODUCIBLE="true"
+REPRODUCIBLE=true
 ```
 
 ### singleSnapshot
 
-This flag takes a single snapshot at the end of the build.
+This flag takes a single snapshot at the end of the build process.
 
-\*\*
-
-.releaserc:\*\*
+**.releaserc:**
 
 ```json
 {
@@ -1031,12 +1067,12 @@ This flag takes a single snapshot at the end of the build.
 **Environment variable:**
 
 ```shell
-SINGLE_SNAPSHOT="true"
+SINGLE_SNAPSHOT=true
 ```
 
 ### skipDefaultRegistryFallback
 
-This flag, when set, prevents fallback to the default registry if an image is not found on any mirrors (defined with registry-mirror). If registry-mirror is not defined, this flag is ignored.
+This flag prevents fallback to the default registry if an image is not found on defined mirrors.
 
 **.releaserc:**
 
@@ -1054,12 +1090,12 @@ This flag, when set, prevents fallback to the default registry if an image is no
 **Environment variable:**
 
 ```shell
-SKIP_DEFAULT_REGISTRY_FALLBACK="true"
+SKIP_DEFAULT_REGISTRY_FALLBACK=true
 ```
 
 ### skipPushPermissionCheck
 
-This flag skips the check of the push permission.
+This flag skips checking push permissions.
 
 **.releaserc:**
 
@@ -1077,12 +1113,12 @@ This flag skips the check of the push permission.
 **Environment variable:**
 
 ```shell
-SKIP_PUSH_PERMISSION_CHECK="true"
+SKIP_PUSH_PERMISSION_CHECK=true
 ```
 
 ### skipTlsVerify
 
-This flag enables pushing to an insecure registry ignoring TLS verify.
+This flag enables pushing to an insecure registry without TLS verification.
 
 **.releaserc:**
 
@@ -1100,12 +1136,12 @@ This flag enables pushing to an insecure registry ignoring TLS verify.
 **Environment variable:**
 
 ```shell
-SKIP_TLS_VERIFY="true"
+SKIP_TLS_VERIFY=true
 ```
 
 ### skipTlsVerifyPull
 
-This flag enables pulling from an insecure registry ignoring TLS verify.
+This flag enables pulling from an insecure registry without TLS verification.
 
 **.releaserc:**
 
@@ -1123,12 +1159,12 @@ This flag enables pulling from an insecure registry ignoring TLS verify.
 **Environment variable:**
 
 ```shell
-SKIP_TLS_VERIFY_PULL="true"
+SKIP_TLS_VERIFY_PULL=true
 ```
 
 ### skipTlsVerifyRegistry
 
-This flag specifies insecure registries ignoring TLS verify to push and pull. Use an array for multiple registries.
+This flag specifies registries to ignore TLS verification for push and pull operations.
 
 **.releaserc:**
 
@@ -1146,12 +1182,12 @@ This flag specifies insecure registries ignoring TLS verify to push and pull. Us
 **Environment variable:**
 
 ```shell
-SKIP_TLS_VERIFY_REGISTRY="registry1.example.com,registry2.example.com"
+SKIP_TLS_VERIFY_REGISTRY='["registry1.example.com","registry2.example.com"]'
 ```
 
 ### skipUnusedStages
 
-This flag, when set to true, builds only used stages. Otherwise, it builds all stages by default, even the unnecessary ones until it reaches the target stage / end of Dockerfile.
+This flag builds only the used stages, ignoring unnecessary ones.
 
 **.releaserc:**
 
@@ -1169,12 +1205,12 @@ This flag, when set to true, builds only used stages. Otherwise, it builds all s
 **Environment variable:**
 
 ```shell
-SKIP_UNUSED_STAGES="true"
+SKIP_UNUSED_STAGES=true
 ```
 
 ### snapshotMode
 
-This flag changes the file attributes inspected during snapshotting. The default value is "full".
+This flag changes the file attributes inspected during snapshotting.
 
 **.releaserc:**
 
@@ -1197,7 +1233,7 @@ SNAPSHOT_MODE="time"
 
 ### tarPath
 
-This flag specifies the path to save the image as a tarball instead of pushing.
+This flag specifies the path to save the image as a tarball instead of pushing it.
 
 **.releaserc:**
 
@@ -1220,7 +1256,7 @@ TAR_PATH="/path/to/save/image.tar"
 
 ### target
 
-This flag sets the target build stage to build.
+This flag sets the target build stage.
 
 **.releaserc:**
 
@@ -1243,7 +1279,7 @@ TARGET="production"
 
 ### useNewRun
 
-This flag enables the use of the experimental run implementation for detecting changes without requiring file system snapshots.
+This flag enables the use of an experimental run implementation for detecting changes.
 
 **.releaserc:**
 
@@ -1261,12 +1297,12 @@ This flag enables the use of the experimental run implementation for detecting c
 **Environment variable:**
 
 ```shell
-USE_NEW_RUN="true"
+USE_NEW_RUN=true
 ```
 
 ### verbosity
 
-This flag sets the log level. Options are "trace", "debug", "info", "warn", "error", "fatal", "panic". The default value is "info".
+This flag sets the log level for output. Options include `"trace"`, `"debug"`, `"info"`, `"warn"`, `"error"`, `"fatal"`, `"panic"`.
 
 **.releaserc:**
 
