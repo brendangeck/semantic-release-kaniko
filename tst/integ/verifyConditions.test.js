@@ -19,8 +19,10 @@ describe('Verify Conditions', function () {
 
     const executeVerification = async (pluginConfig, expectedError) => {
         if (expectedError) {
-            await assert.rejects(verifyConditions(pluginConfig, { logger: console }), 
-                error => error instanceof SemanticReleaseError && error.code === expectedError);
+            await assert.rejects(
+                verifyConditions(pluginConfig, { logger: console }),
+                error => error instanceof SemanticReleaseError && error.code === expectedError
+            );
         } else {
             await assert.doesNotReject(verifyConditions(pluginConfig, { logger: console }));
         }
@@ -46,12 +48,18 @@ describe('Verify Conditions', function () {
     });
 
     it('should fail when Dockerfile does not exist', async () => {
-        const pluginConfig = { destination: ['registry.example.com/my-image:${version}'], dockerfile: 'NonExistentDockerfile' };
+        const pluginConfig = {
+            destination: ['registry.example.com/my-image:${version}'],
+            dockerfile: 'NonExistentDockerfile',
+        };
         await executeVerification(pluginConfig, 'EMISSINGDOCKERFILE');
     });
 
     it('should pass with valid configuration', async () => {
-        const pluginConfig = { destination: ['registry.example.com/my-image:${version}'], dockerfile: 'tst/integ/resources/test.Dockerfile' };
+        const pluginConfig = {
+            destination: ['registry.example.com/my-image:${version}'],
+            dockerfile: 'tst/integ/resources/test.Dockerfile',
+        };
         await executeVerification(pluginConfig);
     });
 
