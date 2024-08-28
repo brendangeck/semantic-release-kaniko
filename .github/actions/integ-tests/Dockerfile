@@ -17,4 +17,5 @@ COPY entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
 
 # Set the entrypoint
-ENTRYPOINT ["/entrypoint.sh"]
+ARG INTEG_TEST_FILE
+ENTRYPOINT ["/entrypoint.sh", "$INTEG_TEST_FILE"]

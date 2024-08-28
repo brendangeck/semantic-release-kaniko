@@ -19,5 +19,8 @@ npm install
 echo "Contents of GitHub Workspace:"
 ls -la $GITHUB_WORKSPACE
 
-echo "Running tests..."
-npx mocha tst/integ/**/*.test.js
+# Accept input for integ test file
+INTEG_TEST_FILE=${1:-"tst/integ/**/*.test.js"}
+
+echo "Running tests on $INTEG_TEST_FILE..."
+npx mocha $INTEG_TEST_FILE
