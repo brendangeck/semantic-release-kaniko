@@ -196,13 +196,14 @@ workflows:
 
 ## Private Registry Authorization
 
-You can use environment variables to pass credentials to Kaniko. These environment variables are typically set in your CI/CD environment for security. The two main environment variables used are:
+You can use environment variables to pass credentials to Kaniko. These environment variables are typically set in your CI/CD environment for security. The main environment variables used are:
 
 -   `DOCKER_REGISTRY`: The URL of the Docker registry
 -   `DOCKER_USERNAME`: The username for the Docker registry.
 -   `DOCKER_PASSWORD`: The password or token for the Docker registry.
 
-To configure your GitHub Actions workflow to push images to a private registry, add the `DOCKER_USERNAME` and `DOCKER_PASSWORD` as secrets in your GitHub repository settings. Then, use them in your workflow file:
+
+### GitHub Actions Example
 
 ```yaml
 name: Release
