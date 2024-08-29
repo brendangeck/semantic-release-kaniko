@@ -73,7 +73,7 @@ For more advanced usage and detailed configuration options, including setting cu
 
 ## Contributing
 
-We welcome contributions to semantic-release-kaniko! See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines on how to get involved.
+We welcome contributions to semantic-release-kaniko! Simply raise and Issue or a PR and we can review it ASAP.
 
 ## License
 
