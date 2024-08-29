@@ -64,8 +64,8 @@ describe('Verify Conditions', function () {
     });
 
     it('should verify required environment variables are set', async () => {
-        process.env.DESTINATION = 'registry.example.com/my-image:${version}';
-        process.env.DOCKERFILE = 'tst/integ/resources/test.Dockerfile';
+        process.env.KANIKO_DESTINATION = 'registry.example.com/my-image:${version}';
+        process.env.KANIKO_DOCKERFILE = 'tst/integ/resources/test.Dockerfile';
         const pluginConfig = {};
         await executeVerification(pluginConfig);
     });
