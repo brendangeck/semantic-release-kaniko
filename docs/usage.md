@@ -64,11 +64,22 @@ module.exports = {
 };
 ```
 
-### Environment Variables for Plugin Configuration
+## Environment Variables for Plugin Configuration
 
-In cases where sensitive data or variable configuration is necessary, using environment variables is preferred. This approach is especially beneficial in CI/CD environments where the configuration should not be hardcoded in the `.releaserc` file.
+In cases where sensitive data or variable configuration is necessary, we support providing config values as env vars. This approach is especially beneficial in CI/CD environments where the configuration should not be hardcoded in the `.releaserc` file.
 
-### Example of Configuring with Environment Variables
+The environment variable names are derived from the configuration options by converting the option name to uppercase and prefixing with `KANIKO`. For example, the `destination` option would be set with the `KANIKO_DESTINATION` environment variable.
+
+Anything more complex than a simple key/value pair should be represented as JSON. Some examples:
+
+-   `KANIKO_NO_PUSH=true`
+-   `KANIKO_DOCKERFILE="custom.Dockerfile"`
+-   `KANIKO_DESTINATION='["registry.example.com/my-project/my-image:\${version}","registry.example.com/my-project/my-image:latest"]'`
+-   `KANIKO_REGISTRY_CLIENT_CERT='{"my.first.registry.url":{"cert":"/path/to/first/client/cert","key":"/path/to/first/client/key"},"my.second.registry.url":{"cert":"/path/to/second/client/cert","key":"/path/to/second/client/key"}}'`
+
+Full list of configuration options and examples can be found in the [Configuration](./configuration.md) documentation.
+
+### Environment Variables Example
 
 1. Include the `@bpgeck/semantic-release-kaniko` plugin in your `.releaserc` file:
 
@@ -104,15 +115,9 @@ In cases where sensitive data or variable configuration is necessary, using envi
                 - name: Release
                   run: npx semantic-release
                   env:
-                      DESTINATION: 'registry.example.com/my-project/my-image:${version},registry.example.com/my-project/my-image:latest'
-                      DOCKERFILE: custom.Dockerfile
+                      KANIKO_DESTINATION: '["registry.example.com/my-project/my-image:\${version}","registry.example.com/my-project/my-image:latest"]'
+                      KANIKO_DOCKERFILE: custom.Dockerfile
     ```
-
-### Notes
-
-When using environment variables for list-like values, elements should be separated by commas.
-
-If both environment variables and `.releaserc` configuration are specified for the same key, the `.releaserc` configuration will be preferred.
 
 ## Example Workflows
 
