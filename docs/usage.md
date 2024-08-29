@@ -158,8 +158,8 @@ release:
     script:
         - npm ci
         - npx semantic-release
-    only:
-        - main
+    rules:
+        - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
 ```
 
 ### CircleCI Example
