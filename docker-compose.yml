@@ -1,12 +1,21 @@
 version: '3.8'
 
 services:
-    test-runner:
+    test-suite-verify-conditions:
         build: .
         volumes:
             - .:/usr/src/app
         working_dir: /usr/src/app
-        command: npx mocha 'tst/integ/**/*.test.js'
+        command: npx mocha 'tst/integ/verifyConditions.test.js'
+        depends_on:
+            - mock-registry
+
+    test-suite-prepare-publish:
+        build: .
+        volumes:
+            - .:/usr/src/app
+        working_dir: /usr/src/app
+        command: npx mocha 'tst/integ/preparePublish.test.js'
         depends_on:
             - mock-registry
 

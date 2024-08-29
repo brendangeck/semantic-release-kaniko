@@ -1,17 +1,8 @@
 import { verifyConditions } from '../../lib/verifyConditions.mjs';
 import assert from 'assert';
 import SemanticReleaseError from '@semantic-release/error';
-
-const validConfig = {
-    image: 'test-project/test-image',
-    tags: ['latest', '${version}'],
-    registry: 'mock-registry:5000',
-    dockerfile: 'Dockerfile',
-};
-
-const context = {
-    logger: console,
-};
+import fs from 'fs';
+import path from 'path';
 
 describe('Verify Conditions', function () {
     this.timeout(20000);
@@ -26,49 +17,56 @@ describe('Verify Conditions', function () {
         process.env = originalEnv;
     });
 
-    it('should fail if Dockerfile is missing', async () => {
-        const invalidConfig = { ...validConfig, dockerfile: 'NonExistentDockerfile' };
-        await assert.rejects(verifyConditions(invalidConfig, context), error => {
-            assert(error instanceof SemanticReleaseError);
-            assert.strictEqual(error.code, 'EDOCKERFILENOTFOUND');
-            return true;
-        });
+    const executeVerification = async (pluginConfig, expectedError) => {
+        if (expectedError) {
+            await assert.rejects(
+                verifyConditions(pluginConfig, { logger: console }),
+                error => error instanceof SemanticReleaseError && error.code === expectedError
+            );
+        } else {
+            await assert.doesNotReject(verifyConditions(pluginConfig, { logger: console }));
+        }
+    };
+
+    it('should fail when Kaniko is not installed', async () => {
+        const kanikoExecutorPath = '/kaniko/executor';
+        const invalidKanikoPath = '/kaniko/executor_invalid';
+
+        fs.mkdirSync(path.dirname(invalidKanikoPath), { recursive: true });
+        fs.renameSync(kanikoExecutorPath, invalidKanikoPath);
+
+        try {
+            await executeVerification({}, 'EMISSINGKANIKO');
+        } finally {
+            fs.renameSync(invalidKanikoPath, kanikoExecutorPath);
+        }
     });
 
-    it('should fail if registry is missing in configuration', async () => {
-        const invalidConfig = { ...validConfig, registry: null };
-        await assert.rejects(verifyConditions(invalidConfig, context), error => {
-            assert(error instanceof SemanticReleaseError);
-            assert.strictEqual(error.code, 'EMISSINGREGISTRY');
-            return true;
-        });
+    it('should fail when destination is not set', async () => {
+        const pluginConfig = { dockerfile: 'tst/integ/resources/test.Dockerfile' };
+        await executeVerification(pluginConfig, 'EMISSINGDESTINATION');
     });
 
-    it('should fail if image is missing in configuration', async () => {
-        const invalidConfig = { ...validConfig, image: null };
-        await assert.rejects(verifyConditions(invalidConfig, context), error => {
-            assert(error instanceof SemanticReleaseError);
-            assert.strictEqual(error.code, 'EMISSINGIMAGE');
-            return true;
-        });
+    it('should fail when Dockerfile does not exist', async () => {
+        const pluginConfig = {
+            destination: ['registry.example.com/my-image:${version}'],
+            dockerfile: 'NonExistentDockerfile',
+        };
+        await executeVerification(pluginConfig, 'EMISSINGDOCKERFILE');
     });
 
-    it('should fail if tags are missing in configuration', async () => {
-        const invalidConfig = { ...validConfig, tags: [] };
-        await assert.rejects(verifyConditions(invalidConfig, context), error => {
-            assert(error instanceof SemanticReleaseError);
-            assert.strictEqual(error.code, 'EMISSINGTAGS');
-            return true;
-        });
+    it('should pass with valid configuration', async () => {
+        const pluginConfig = {
+            destination: ['registry.example.com/my-image:${version}'],
+            dockerfile: 'tst/integ/resources/test.Dockerfile',
+        };
+        await executeVerification(pluginConfig);
     });
 
-    it('should use environment variables when config is not provided', async () => {
-        process.env.IMAGE = 'env-test-image';
-        process.env.TAGS = 'latest,${version}';
-        process.env.REGISTRY = 'env-registry:5000';
-        process.env.DOCKERFILE = 'tst/integ/resources/test.Dockerfile';
-
-        const emptyConfig = {};
-        await verifyConditions(emptyConfig, { logger: console });
+    it('should verify required environment variables are set', async () => {
+        process.env.KANIKO_DESTINATION = 'registry.example.com/my-image:${version}';
+        process.env.KANIKO_DOCKERFILE = 'tst/integ/resources/test.Dockerfile';
+        const pluginConfig = {};
+        await executeVerification(pluginConfig);
     });
 });

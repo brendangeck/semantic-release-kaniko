@@ -8,7 +8,7 @@
         "node": ">=20.8.1"
     },
     "scripts": {
-        "test": "docker compose up --attach test-runner --abort-on-container-exit",
+        "test": "docker compose build --no-cache && docker compose up --attach test-suite-prepare-publish --abort-on-container-exit && docker compose logs test-suite-verify-conditions",
         "lint": "eslint ."
     },
     "keywords": [
@@ -38,6 +38,7 @@
         "eslint-plugin-prettier": "^5.2.1",
         "globals": "^15.9.0",
         "mocha": "^10.7.0",
+        "prettier": "^3.3.3",
         "semantic-release": "^24.0.0"
     },
     "repository": {

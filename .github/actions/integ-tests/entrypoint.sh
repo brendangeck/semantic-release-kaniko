@@ -19,5 +19,5 @@ npm install
 echo "Contents of GitHub Workspace:"
 ls -la $GITHUB_WORKSPACE
 
-echo "Running tests..."
-npx mocha tst/integ/**/*.test.js
+echo "Running tests on $TEST_FILE..."
+npx mocha $TEST_FILE
