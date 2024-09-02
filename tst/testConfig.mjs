@@ -46,12 +46,12 @@ function runTestCase(description, envVars, expectedDest, expectedMirror) {
 runTestCase(
     'Test with JSON array as environment variable',
     {
-        destination: '["registry.example.commy-image:${version}","registry.example.commy-image:latest"]',
+        destination: '["registry.example.com/my-image:${version}","registry.example.com/my-image:latest"]',
         registryMirror: '["mock-registry-mirror:5000"]'
     },
     [
-        'registry.example.commy-image:${version}',
-        'registry.example.commy-image:latest'
+        'registry.example.com/my-image:${version}',
+        'registry.example.com/my-image:latest'
     ],
     ['mock-registry-mirror:5000']
 );
@@ -59,12 +59,12 @@ runTestCase(
 runTestCase(
     'Test with comma-separated string as environment variable',
     {
-        destination: 'registry.example.commy-image:${version},registry.example.commy-image:latest',
+        destination: 'registry.example.com/my-image:${version},registry.example.com/my-image:latest',
         registryMirror: 'mock-registry-mirror:5000'
     },
     [
-        'registry.example.commy-image:${version}',
-        'registry.example.commy-image:latest'
+        'registry.example.com/my-image:${version}',
+        'registry.example.com/my-image:latest'
     ],
     ['mock-registry-mirror:5000']
 );
@@ -72,20 +72,20 @@ runTestCase(
 runTestCase(
     'Test with single string as environment variable',
     {
-        destination: 'registry.example.commy-image:latest',
+        destination: 'registry.example.com/my-image:latest',
         registryMirror: 'mock-registry-mirror:5000'
     },
-    ['registry.example.commy-image:latest'],
+    ['registry.example.com/my-image:latest'],
     ['mock-registry-mirror:5000']
 );
 
 runTestCase(
     'Test with invalid JSON string (fallback to string array)',
     {
-        destination: '["registry.example.commy-image:latest"',
+        destination: '["registry.example.com/my-image:latest"',
         registryMirror: '["mock-registry-mirror:5000"]'
     },
-    ['["registry.example.commy-image:latest"'], // treated as a single string in array
+    ['["registry.example.com/my-image:latest"'], // treated as a single string in array
     ['mock-registry-mirror:5000']
 );
 
